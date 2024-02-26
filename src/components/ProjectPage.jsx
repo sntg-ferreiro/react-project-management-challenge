@@ -1,13 +1,16 @@
 import React from "react";
 
-import { ProjectHeader } from "./ProjectHeader";
 import { TaskDetails } from "./TaskDetails";
 
-export const ProjectPage = ({ project, ...props }) => {
+export const ProjectPage = ({ project, handleDeleteProject, onAddTask, ...props }) => {
   //   string, string[], stirng, number, string
   const { title, tasks, due_date, id, description } = project;
 
-  let formattedDate = due_date
+  let formattedDate = new Date(due_date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
 
 
   return (
@@ -19,18 +22,18 @@ export const ProjectPage = ({ project, ...props }) => {
           </h1>
           <button
             className="text-stone-600 hover:text-stone-950"
-            // onClick={onDelete}
+            onClick={handleDeleteProject}
           >
             Delete
           </button>
         </div>
-        <p className="mb-4 text-stone-400">{formattedDate}</p>
+        <p className="mb-4 text-stone-400">{due_date}</p>
         <p className="text-stone-600 whitespace-pre-wrap">
           {description}
         </p>
       </header>
       {/* <Tasks onAdd={onAddTask} onDelete={onDeleteTask} tasks={tasks} /> */}
-      <TaskDetails task={tasks} />
+      <TaskDetails onAddTask={onAddTask} tasks={tasks} />
     </div>
   );
 
