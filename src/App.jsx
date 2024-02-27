@@ -50,13 +50,22 @@ function App() {
 
   const onAddTask = (text) => {
     setProjectsList((prevList) => {
-      let proj = prevList.filter((p) => projectSelected.id === p.id)[0]; //.tasks.push(text)
-      console.log(proj);
+      let proj = prevList.filter((p) => projectSelected.id === p.id)[0];
       proj.tasks.push(text);
       return prevList;
     });
     setProjectSelected(prev => prev)
   };
+
+  const onDeleteTask = (id) => {
+    setProjectSelected(prev => prev.tasks.filter(t => prev.tasks.indexOf(t) !== id));
+  }
+
+  const handleSaveProject = (project) => {
+    setProjectsList(prev => {
+      return [project, ...prev]
+    })
+  }
 
   let content = !projectSelected ? (
     <NoProjectPage handleAddProject={handleAddProject} />
@@ -65,12 +74,13 @@ function App() {
       project={projectSelected}
       handleDeleteProject={handleDeleteProject}
       onAddTask={onAddTask}
+      onDeleteTask={onDeleteTask}
     />
   );
 
   if (projectSelected === null) {
     content = (
-      <CreateProjectForm handleDeselectProject={handleDeselectProject} />
+      <CreateProjectForm onSave={handleSaveProject} handleDeselectProject={handleDeselectProject} />
     );
   }
 

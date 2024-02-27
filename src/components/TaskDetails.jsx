@@ -1,11 +1,14 @@
 import React from "react";
 import { NewTask } from "./NewTask";
 
-export const TaskDetails = ({ tasks, onAddTask, ...props }) => {
+export const TaskDetails = ({ tasks, onAddTask, onDeleteTask, ...props }) => {
   let taskListDisplay = (
     <ul className="p-4 mt-8 rounded-md bg-stone-100">
       {tasks.map((t) => (
-        <li key={tasks.indexOf(t)}>{t}</li>
+        <li className="gap-4 flex justify-between my-4" key={tasks.indexOf(t)}>
+          <p>{t}</p>
+          <button onClick={() => onDeleteTask(tasks.indexOf(t))}>clear</button>
+        </li>
       ))}
     </ul>
   );

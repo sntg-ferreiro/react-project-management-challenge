@@ -2,7 +2,7 @@ import React from "react";
 
 import { TaskDetails } from "./TaskDetails";
 
-export const ProjectPage = ({ project, handleDeleteProject, onAddTask, ...props }) => {
+export const ProjectPage = ({ project, handleDeleteProject, onAddTask, onDeleteTask, ...props }) => {
   //   string, string[], stirng, number, string
   const { title, tasks, due_date, id, description } = project;
 
@@ -32,8 +32,7 @@ export const ProjectPage = ({ project, handleDeleteProject, onAddTask, ...props 
           {description}
         </p>
       </header>
-      {/* <Tasks onAdd={onAddTask} onDelete={onDeleteTask} tasks={tasks} /> */}
-      <TaskDetails onAddTask={onAddTask} tasks={tasks} />
+      <TaskDetails onAddTask={onAddTask} onDeleteTask={onDeleteTask} tasks={tasks} />
     </div>
   );
 
