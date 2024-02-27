@@ -35,7 +35,7 @@ const base_list = [
 
 const base_state = {
   selected_project_id: undefined,
-  project_list: base_list,
+  project_list: [],
 };
 
 function App() {
@@ -108,6 +108,7 @@ function App() {
     setProjectsState((prev) => {
       return {
         ...prev,
+        selected_project_id: project.id,
         project_list: [project, ...prev.project_list],
       };
     });
