@@ -17,7 +17,7 @@ export const NewTask = ({ onAddTask }) => {
     if (enteredTask.trim() == "") {
       return;
     }
-    onAddTask({text:enteredTask,id:getRandomInt(0,100)});
+    onAddTask({ text: enteredTask, id: getRandomInt(0, 10000) });
     setEnteredTask("");
   };
 

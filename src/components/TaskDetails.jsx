@@ -1,9 +1,6 @@
 import React from "react";
 import { NewTask } from "./NewTask";
 
-
-
-
 export const TaskDetails = ({ tasks, onAddTask, onDeleteTask, ...props }) => {
   return (
     <div>
@@ -12,14 +9,9 @@ export const TaskDetails = ({ tasks, onAddTask, onDeleteTask, ...props }) => {
       {tasks.length > 0 ? (
         <ul className="p-4 mt-8 rounded-md bg-stone-100">
           {tasks.map((t) => (
-            <li
-              className="gap-4 flex justify-between my-4"
-              key={t.id}
-            >
+            <li className="gap-4 flex justify-between my-4" key={t.id}>
               <p>{t.text}</p>
-              <button onClick={() => onDeleteTask(t.id)}>
-                clear
-              </button>
+              <button onClick={() => onDeleteTask(t.id)}>clear</button>
             </li>
           ))}
         </ul>

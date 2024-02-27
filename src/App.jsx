@@ -42,7 +42,6 @@ function App() {
   const [projectsState, setProjectsState] = useState(base_state);
 
   const handleSelectProject = (id) => {
-    console.log("id: " + id);
     setProjectsState((prev) => {
       return {
         ...prev,
@@ -147,6 +146,7 @@ function App() {
           handleAddProject={handleAddProject}
           handleSelectProject={handleSelectProject}
           projects={projectsState.project_list}
+          idSelected={projectsState.selected_project_id}
         />
         {content}
       </main>
