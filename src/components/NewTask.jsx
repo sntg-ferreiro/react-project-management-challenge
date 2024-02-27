@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export const NewTask = ({ onAddTask }) => {
   const [enteredTask, setEnteredTask] = useState("");
 
@@ -11,7 +17,7 @@ export const NewTask = ({ onAddTask }) => {
     if (enteredTask.trim() == "") {
       return;
     }
-    onAddTask(enteredTask);
+    onAddTask({text:enteredTask,id:getRandomInt(0,100)});
     setEnteredTask("");
   };
 

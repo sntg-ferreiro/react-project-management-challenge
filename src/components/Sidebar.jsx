@@ -18,7 +18,7 @@ export const Sidebar = ({projects,handleAddProject, handleSelectProject, ...prop
       </div>
       <ul className="mt-4">
         {projects.map((p) => (
-          <SidebarElement handleSelectProject={() => handleSelectProject(p)} key={projects.indexOf(p)}>
+          <SidebarElement handleSelectProject={handleSelectProject} id={p.id} key={p.id}>
             {p.title}
           </SidebarElement>
         ))}

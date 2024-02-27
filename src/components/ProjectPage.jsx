@@ -6,13 +6,6 @@ export const ProjectPage = ({ project, handleDeleteProject, onAddTask, onDeleteT
   //   string, string[], stirng, number, string
   const { title, tasks, due_date, id, description } = project;
 
-  let formattedDate = new Date(due_date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-
-
   return (
     <div className="w-[35rem] mt-16">
       <header className="pb-4 mb-4 border-b-2 border-stone-300">

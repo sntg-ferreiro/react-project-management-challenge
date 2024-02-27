@@ -13,74 +13,129 @@ const base_list = [
   },
   {
     id: 1,
-    tasks: ["hacer cosa", "hacer cosa 2"],
+    tasks: [
+      { id: 0, text: "hacer cosa" },
+      { id: 1, text: "hacer cosa2" },
+      { id: 2, text: "hacer cosa22" },
+    ],
     title: "projecto 2",
     due_date: "28-02-2024",
   },
   {
     id: 2,
-    tasks: ["hacer cosa", "hacer cosa 2"],
+    tasks: [
+      { id: 0, text: "hacer cosa" },
+      { id: 1, text: "hacer cosa2" },
+      { id: 2, text: "hacer cosa22" },
+    ],
     title: "projecto 3",
     due_date: "29-02-2024",
   },
 ];
 
-function App() {
-  const [projectSelected, setProjectSelected] = useState(undefined);
-  const [projectsList, setProjectsList] = useState(base_list);
+const base_state = {
+  selected_project_id: undefined,
+  project_list: base_list,
+};
 
-  const handleSelectProject = (project) => {
-    setProjectSelected(project);
+function App() {
+  const [projectsState, setProjectsState] = useState(base_state);
+
+  const handleSelectProject = (id) => {
+    console.log("id: " + id);
+    setProjectsState((prev) => {
+      return {
+        ...prev,
+        selected_project_id: id,
+      };
+    });
   };
 
   const handleAddProject = () => {
-    setProjectSelected(null);
+    setProjectsState((prev) => {
+      return {
+        ...prev,
+        selected_project_id: null,
+      };
+    });
   };
 
   const handleDeselectProject = () => {
-    setProjectSelected(undefined);
+    setProjectsState((prev) => {
+      return {
+        ...prev,
+        selected_project_id: undefined,
+      };
+    });
   };
 
   const handleDeleteProject = () => {
-    setProjectsList((prevList) =>
-      prevList.filter((p) => p.id !== projectSelected.id)
-    );
-    setProjectSelected(undefined);
+    setProjectsState((prev) => {
+      let list = prev.project_list.filter(
+        (p) => p.id !== prev.selected_project_id
+      );
+      return {
+        selected_project_id: undefined,
+        project_list: list,
+      };
+    });
   };
 
-  const onAddTask = (text) => {
-    setProjectsList((prevList) => {
-      let proj = prevList.filter((p) => projectSelected.id === p.id)[0];
-      proj.tasks.push(text);
-      return prevList;
+  const onAddTask = (task) => {
+    setProjectsState((prev) => {
+      let proj = prev.project_list.find(
+        (p) => prev.selected_project_id === p.id
+      );
+      proj.tasks = [task, ...proj.tasks];
+      return {
+        ...prev,
+      };
     });
-    setProjectSelected(prev => prev)
   };
 
   const onDeleteTask = (id) => {
-    setProjectSelected(prev => prev.tasks.filter(t => prev.tasks.indexOf(t) !== id));
-  }
+    setProjectsState((prev) => {
+      let proj = prev.project_list.find(
+        (p) => prev.selected_project_id === p.id
+      );
+      proj.tasks = proj.tasks.filter((t) => t.id !== id);
+      return {
+        ...prev,
+      };
+    });
+  };
 
   const handleSaveProject = (project) => {
-    setProjectsList(prev => {
-      return [project, ...prev]
-    })
-  }
+    setProjectsState((prev) => {
+      return {
+        ...prev,
+        project_list: [project, ...prev.project_list],
+      };
+    });
+  };
 
-  let content = !projectSelected ? (
-    <NoProjectPage handleAddProject={handleAddProject} />
-  ) : (
-    <ProjectPage
-      project={projectSelected}
-      handleDeleteProject={handleDeleteProject}
-      onAddTask={onAddTask}
-      onDeleteTask={onDeleteTask}
-    />
-  );
+  let content = undefined;
 
-  if (projectSelected === null) {
+  if (projectsState.selected_project_id === undefined) {
+    content = <NoProjectPage handleAddProject={handleAddProject} />;
+  } else if (projectsState.selected_project_id === null) {
     content = (
-      <CreateProjectForm onSave={handleSaveProject} handleDeselectProject={handleDeselectProject} />
+      <CreateProjectForm
+        onSave={handleSaveProject}
+        handleDeselectProject={handleDeselectProject}
+      />
+    );
+  } else {
+    let selected = projectsState.project_list.find(
+      (p) => p.id === projectsState.selected_project_id
+    );
+    content = (
+      <ProjectPage
+        project={selected}
+        handleDeleteProject={handleDeleteProject}
+        onAddTask={onAddTask}
+        onDeleteTask={onDeleteTask}
+      />
     );
   }
 
@@ -91,7 +146,7 @@ function App() {
         <Sidebar
           handleAddProject={handleAddProject}
           handleSelectProject={handleSelectProject}
-          projects={projectsList}
+          projects={projectsState.project_list}
         />
         {content}
       </main>
